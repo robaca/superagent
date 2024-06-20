@@ -441,6 +441,30 @@ app.put('/redirect-308', (request, res) => {
   res.redirect(308, '/reply-method');
 });
 
+app.get('/cookie-cross-domain-redirect', (request, res) => {
+  const { first, second } = request.query
+  res.cookie('currentdomain', request.hostname, {
+    path: '/',
+    sameSite: 'lax',
+    secure: false,
+    maxAge: 1000
+  });
+
+  res.redirect(303, `${second}/cookie-cross-domain-second-redirect?first=${encodeURIComponent(first)}`);
+});
+
+app.get('/cookie-cross-domain-second-redirect', (request, res) => {
+  const first = request.query.first
+
+  res.cookie('currentdomain', request.hostname, {
+    path: '/',
+    sameSite: 'lax',
+    secure: false,
+    maxAge: 1000
+  });
+  res.redirect(303, `${first}/show-cookies`);
+});
+
 app.all('/reply-method', (request, res) => {
   res.send(`method=${request.method.toLowerCase()}`);
 });
