@@ -82,7 +82,7 @@ for (const name of methods) {
     const request_ = new request.Request(method, url);
 
     request_.on('response', this._saveCookies.bind(this));
-    request_.on('redirect', this._saveCookies.bind(this));
+    request_.on('pre-redirect', this._saveCookies.bind(this));
     request_.on('redirect', this._attachCookies.bind(this, request_));
     this._setDefaults(request_);
     this._attachCookies(request_);

@@ -66,7 +66,7 @@ describe('Agent', () => {
       .query({ first, second })
       .connect('127.0.0.1')
       .then((res) => {
-        assert.equal(res.text, 'currentdomain=first.local')
+        assert.equal(res.text, 'first.local=true')
       })
   })
 });
