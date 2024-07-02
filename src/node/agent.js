@@ -54,7 +54,7 @@ class Agent extends AgentBase {
     const cookies = res.headers['set-cookie'];
     if (cookies) {
       const url = new URL(res.request?.url || '');
-      this.jar.setCookies(cookies, url.hostname, url.pathname);
+      this.jar.setCookies(cookies, url.hostname, null);
     }
   }
 
