@@ -443,7 +443,8 @@ app.put('/redirect-308', (request, res) => {
 
 app.get('/cookie-cross-domain-redirect', (request, res) => {
   const { first, second } = request.query
-  res.cookie(request.hostname, 'true', {
+  const hostname = new URL(`http://${request.headers.host ?? request.headers[':authority']}`).hostname
+  res.cookie(hostname, 'true', {
     path: '/',
     sameSite: 'lax',
     secure: false,
@@ -455,8 +456,8 @@ app.get('/cookie-cross-domain-redirect', (request, res) => {
 
 app.get('/cookie-cross-domain-second-redirect', (request, res) => {
   const first = request.query.first
-
-  res.cookie(request.hostname, 'true', {
+  const hostname = new URL(`http://${request.headers.host ?? request.headers[':authority']}`).hostname
+  res.cookie(hostname, 'true', {
     path: '/',
     sameSite: 'lax',
     secure: false,
