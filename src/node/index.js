@@ -504,7 +504,7 @@ Request.prototype._redirect = function (res) {
   // this is required for Node v0.10+
   res.resume();
 
-  this._emitPreRedirect();
+  this._emitPreRedirect(res);
 
   let headers = this.req.getHeaders ? this.req.getHeaders() : this.req._headers;
 
@@ -958,7 +958,8 @@ Request.prototype._emitRedirect = function () {
   this.emit('redirect', response);
 };
 
-Request.prototype._emitPreRedirect = function () {
+Request.prototype._emitPreRedirect = function (res) {
+  this.res = res;
   const response = new Response(this);
   response.redirects = this._redirectList;
   this.emit('pre-redirect', response);
